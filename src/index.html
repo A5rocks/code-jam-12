@@ -102,7 +102,7 @@
         `).then((e) => {
           setup = pyodide.pyimport("setup");
           setup.setup_pyodide_scripts().then(e => {
-            pkg = pyodide.pyimport("script")
+            pkg = pyodide.pyimport("functions")
           });
         });
       });
