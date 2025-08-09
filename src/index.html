@@ -91,9 +91,7 @@
       console.log(sql_data)
 
       let data = pkg.parse_input(sql_data);
-      pkg.get_user_data(data).then((e) => {
-        console.log(e)
-      })
+      pkg.get_user_data(data)
     }
 
     function main() {
