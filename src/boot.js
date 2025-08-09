@@ -29,23 +29,19 @@ const bootMessages = [
 
 let bootScreen = null;
 let isBootComplete = false;
+let continuePressed = false;
 
 window.startBootSequence = async function () {
-  // create boot screen overlay
+  continuePressed = false;
+  
   bootScreen = document.createElement("div");
   bootScreen.className = "boot-screen";
   bootScreen.innerHTML = '<div class="boot-content" id="boot-content"></div>';
 
-  // add to body
   document.body.appendChild(bootScreen);
-
-  // hide main interface
   document.querySelector(".interface").style.opacity = "0";
 
-  // start boot sequence
   await showBootMessages();
-
-  // wait for user interaction or auto-continue
   await waitForContinue();
 
   isBootComplete = true;
@@ -70,7 +66,7 @@ window.finishBoot = function () {
   mainInterface.style.transition = "opacity 0.5s ease";
   mainInterface.style.opacity = "1";
 
-  console.log("🚀 boot sequence complete - system ready");
+  console.log("boot sequence complete - system ready");
 };
 
 window.isBootComplete = function () {
@@ -82,6 +78,18 @@ async function showBootMessages() {
   const bootContent = document.getElementById("boot-content");
 
   for (let i = 0; i < bootMessages.length; i++) {
+    if (continuePressed) {
+      const remainingMessages = bootMessages.slice(i);
+      remainingMessages.forEach(msg => {
+        const line = document.createElement("div");
+        line.className = "boot-line boot-show";
+        line.textContent = msg.text;
+        if (msg.blink) line.classList.add("boot-blink");
+        bootContent.appendChild(line);
+      });
+      break;
+    }
+
     const message = bootMessages[i];
     const line = document.createElement("div");
     line.className = "boot-line";
@@ -102,12 +110,10 @@ async function showBootMessages() {
 
     bootContent.appendChild(line);
 
-    // show the line with fade effect
     setTimeout(() => {
       line.classList.add("boot-show");
     }, 50);
 
-    // handle progress bar animation
     if (message.showProgress) {
       await animateProgressBar("progress-bar-" + i);
     }
@@ -126,6 +132,13 @@ function animateProgressBar(barId) {
 
     let progress = 0;
     const interval = setInterval(() => {
+      if (continuePressed) {
+        progress = 100;
+        clearInterval(interval);
+        resolve();
+        return;
+      }
+      
       progress += Math.random() * 15;
       if (progress >= 100) {
         progress = 100;
@@ -139,21 +152,44 @@ function animateProgressBar(barId) {
 
 function waitForContinue() {
   return new Promise((resolve) => {
-    const handleInteraction = () => {
-      document.removeEventListener("keydown", handleInteraction);
-      document.removeEventListener("click", handleInteraction);
+    const handleInteraction = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      continuePressed = true;
+      
+      document.removeEventListener("keydown", handleInteraction, true);
+      document.removeEventListener("click", handleInteraction, true);
+      bootScreen.removeEventListener("click", handleInteraction, true);
+      
       resolve();
     };
 
-    document.addEventListener("keydown", handleInteraction);
-    document.addEventListener("click", handleInteraction);
+    document.addEventListener("keydown", handleInteraction, true);
+    document.addEventListener("click", handleInteraction, true);
+    
+    if (bootScreen) {
+      bootScreen.addEventListener("click", handleInteraction, true);
+    }
 
-    // auto-continue after 3 seconds
-    setTimeout(() => {
-      document.removeEventListener("keydown", handleInteraction);
-      document.removeEventListener("click", handleInteraction);
-      resolve();
+    const timeoutId = setTimeout(() => {
+      if (!continuePressed) {
+        continuePressed = true;
+        
+        document.removeEventListener("keydown", handleInteraction, true);
+        document.removeEventListener("click", handleInteraction, true);
+        if (bootScreen) {
+          bootScreen.removeEventListener("click", handleInteraction, true);
+        }
+        
+        resolve();
+      }
     }, 3000);
+
+    const originalResolve = resolve;
+    resolve = () => {
+      clearTimeout(timeoutId);
+      originalResolve();
+    };
   });
 }
 
@@ -173,6 +209,7 @@ const bootStyles = `
   font-size: 14px;
   line-height: 1.4;
   overflow-y: auto;
+  cursor: pointer;
 }
 
 .boot-content {

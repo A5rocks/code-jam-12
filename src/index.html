@@ -87,7 +87,9 @@
     <script src="boot.js"></script>
     <script src="frontend.js"></script>
     <script type="text/javascript">
-      let pyodide;
+
+    const SHOW_BOOT = true; // false to skip boot sequence
+    let pyodide;
 
       function send_back() {
         let sql_data = document.getElementById("query-input").value;
@@ -98,7 +100,9 @@
       }
 
       async function main() {
-        await window.startBootSequence();
+  if (SHOW_BOOT) {
+    await window.startBootSequence();
+  }
         try {
           pyodide = await loadPyodide();
           console.log("pyodide loaded");
