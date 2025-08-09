@@ -4,10 +4,20 @@
       <script src="https://cdn.jsdelivr.net/pyodide/v0.28.1/full/pyodide.js"></script>
   </head>
   <body>
+    <input id="sql-field" name="" type="text">
+    <input type="button" name="" onclick="send_back()">
     <script type="text/javascript">
+      let pyodide;
+      
+      async function send_back(){
+        let sql_data = document.getElementById("sql-field").value
+        console.log(sql_data)
+
+        pkg.parse_input(sql_data);
+      }
       async function main(){
         
-        let pyodide = await loadPyodide();
+       pyodide = await loadPyodide();
 
         await pyodide.runPythonAsync(`
             from pyodide.http import pyfetch
@@ -15,10 +25,12 @@
             with open("script.py", "wb") as f:
                 f.write(await response.bytes())
         `)
-
         pkg = pyodide.pyimport("script");
-        pkg.do_something("Daniel");
+
+
+        
       }
+
       main();
     </script>
   </body>
