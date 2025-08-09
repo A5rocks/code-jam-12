@@ -1,0 +1,445 @@
+/* fonts */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* base layout */
+body {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  background: #000;
+  color: #00ff00;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.screen {
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, #001a00 0%, #000000 70%);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 100px rgba(0, 255, 0, 0.1);
+}
+
+/* crt effect  */
+.screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 0, 0.02) 2px,
+    rgba(0, 255, 0, 0.02) 4px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+.screen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* electric wave */
+.electric-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    0deg,
+    transparent 0%,
+    rgba(0, 255, 0, 0.1) 49%,
+    rgba(0, 255, 0, 0.3) 50%,
+    rgba(0, 255, 0, 0.1) 51%,
+    transparent 100%
+  );
+  transform: translateY(-100%);
+  pointer-events: none;
+  z-index: 15;
+  opacity: 0;
+}
+
+.electric-wave.active {
+  animation: electricWave 2s ease-out;
+}
+
+@keyframes electricWave {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* main interface */
+.interface {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-bar {
+  background: #00ff00;
+  color: #000;
+  padding: 8px 16px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 2px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.window {
+  border: 2px solid #00ff00;
+  background: #000;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-area {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* panels */
+.query-panel,
+.results-panel {
+  border: 1px solid #00ff00;
+  background: #001100;
+}
+
+.panel-header {
+  background: #003300;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: bold;
+  border-bottom: 1px solid #00ff00;
+}
+
+.panel-content {
+  padding: 12px;
+}
+
+/* query input */
+.sql-input {
+  width: 100%;
+  height: 100px;
+  background: #000;
+  border: 1px inset #00ff00;
+  color: #00ff00;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 8px;
+  resize: none;
+  outline: none;
+}
+
+.sql-input:focus {
+  background: #001100;
+  box-shadow: inset 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+.sql-input::placeholder {
+  color: #006600;
+  opacity: 0.7;
+}
+
+/* buttons */
+.button-row {
+  margin-top: 8px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  background: #003300;
+  border: 2px outset #00ff00;
+  color: #00ff00;
+  padding: 8px 20px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background: #004400;
+}
+
+.btn:active {
+  border: 2px inset #00ff00;
+  background: #002200;
+}
+
+.btn:disabled {
+  background: #001100;
+  color: #004400;
+  cursor: not-allowed;
+  border-color: #004400;
+}
+
+.btn-danger {
+  background: #330000;
+  border-color: #ff0000;
+  color: #ff0000;
+}
+
+.btn-danger:hover {
+  background: #440000;
+}
+
+.btn-danger:active {
+  background: #220000;
+}
+
+/* results table */
+.results-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.table-area {
+  flex: 1;
+  overflow: auto;
+  background: #000;
+  border: 1px inset #00ff00;
+  margin: 12px;
+  max-height: calc(100vh - 400px);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 800px;
+}
+
+.data-table th {
+  background: #003300;
+  border: 1px solid #00ff00;
+  padding: 8px 15px;
+  text-align: left;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.data-table td {
+  border: 1px solid #004400;
+  padding: 8px 15px;
+  white-space: nowrap;
+}
+
+.data-table tr:nth-child(even) {
+  background: #001100;
+}
+
+.data-table tr:hover {
+  background: #002200;
+}
+
+/* empty state */
+.data-table .empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-style: italic;
+}
+
+/* status line */
+.status-line {
+  background: #003300;
+  border-top: 1px solid #00ff00;
+  padding: 4px 12px;
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+/* status message colors */
+.status-success {
+  color: #00ff00;
+}
+
+.status-error {
+  color: #ff0000;
+}
+
+.status-warning {
+  color: #ffff00;
+}
+
+.status-info {
+  color: #00ffff;
+}
+
+/* loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-overlay.show {
+  display: flex;
+}
+
+.loading-content {
+  text-align: center;
+  color: #00ff00;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #003300;
+  border-top: 3px solid #00ff00;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+.loading-text {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* scrollbars */
+.table-area::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.table-area::-webkit-scrollbar-track {
+  background: #003300;
+  border: 1px solid #00ff00;
+}
+
+.table-area::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border: 1px solid #003300;
+}
+
+.table-area::-webkit-scrollbar-corner {
+  background: #003300;
+}
+
+/* responsive (it works :D!!) */
+@media (max-width: 768px) {
+  .interface {
+    padding: 10px;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .title-bar {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .title-bar span:last-child {
+    display: none;
+  }
+
+  .sql-input {
+    height: 80px;
+    font-size: 13px;
+  }
+
+  .data-table {
+    font-size: 12px;
+    min-width: 600px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .interface {
+    padding: 5px;
+  }
+
+  .content-area {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .panel-content {
+    padding: 8px;
+  }
+
+  .sql-input {
+    height: 60px;
+    font-size: 12px;
+  }
+}
