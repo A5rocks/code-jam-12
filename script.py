@@ -2,7 +2,7 @@ import re
 
 from pyodide.http import pyfetch
 
-c = re.compile(r"(?i)SELECT (?P<fields>.+) FROM (?P<table>.+)")
+c = re.compile(r"(?i)SELECT (?P<fields>.+) FROM (?P<table>.+) WHERE actor=(?P<did>did:plc:(.{24})|(?P<user>.+))")
 
 
 def do_something(name: str) -> None:
@@ -13,13 +13,14 @@ def do_something(name: str) -> None:
 def parse_input(sql_data: str) -> None:
     """Start of the parser."""
     data = c.match(sql_data)
-    print(data["fields"])
-    print(data["table"])
+    print(data)
+    return data
 
 
-async def get_user_data(user: str) -> dict:
+async def get_user_data(user: dict) -> dict:
     """Pyfetch command example."""
-    response = await pyfetch(f"https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor={user}")
+    print(user)
+    response = await pyfetch(f"https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor={user['user']}")
     val = await response.json()
     print(val)
     return val
