@@ -7,7 +7,7 @@ __pycache__/
 venv
 .env
 env
-
+*.lock
 # Unittest reports
 .coverage*
 
@@ -29,3 +29,6 @@ build/
 .vscode/
 # MacOS
 .DS_Store
+# pixi environments
+.pixi
+src/code_jam_template.egg-info/

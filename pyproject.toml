@@ -11,6 +11,7 @@ dev = [
     "pre-commit~=4.2.0",
     "ruff~=0.12.2",
     "pytest",
+    "pyodide-pack>=0.2.0,<0.3"
 ]
 
 [tool.ruff]
@@ -41,6 +42,9 @@ ignore = [
     "A",
     # Print statements.
     "T20",
+    "ERA001", # The "commented out code issue
+    "PTH123", # i do not want to clutter the dom space with more things
+    "ASYNC230", # anyio is not supported in this, maybe
     # TODOs.
     "TD002",
     "TD003",
@@ -50,3 +54,19 @@ ignore = [
     # TODO: set up proper testing structure
     "S101",
 ]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.pypi-dependencies]
+code-jam-template = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+dev = { features = ["dev"], solve-group = "default" }
+
+[tool.pixi.tasks]
+
+[tool.pixi.dependencies]
+pre-commit = ">=4.2.0,<5"
