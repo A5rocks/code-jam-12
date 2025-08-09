@@ -1,37 +1,45 @@
 <!doctype html>
 <html>
-  <head>
-      <script src="https://cdn.jsdelivr.net/pyodide/v0.28.1/full/pyodide.js"></script>
-  </head>
-  <body>
-    <input id="sql-field" name="" type="text">
-    <input type="button" name="" onclick="send_back()">
-    <script type="text/javascript">
-      let pyodide;
 
-      async function send_back(){
-        let sql_data = document.getElementById("sql-field").value
-        console.log(sql_data)
+<head>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.28.1/full/pyodide.js"></script>
+</head>
 
-        pkg.parse_input(sql_data);
-        console.log(await pkg.get_user_data("tess.bsky.social"))
-      }
-      async function main(){
+<body>
+  <input id="sql-field" name="" type="text">
+  <input type="button" name="" onclick="send_back()">
+  <script type="text/javascript">
+    let pyodide;
 
-       pyodide = await loadPyodide();
+    function send_back() {
+      let sql_data = document.getElementById("sql-field").value
+      console.log(sql_data)
 
-        await pyodide.runPythonAsync(`
+      let data = pkg.parse_input(sql_data);
+      pkg.get_user_data(data).then((e) => {
+        console.log(e)
+      })
+    }
+
+    function main() {
+
+      loadPyodide().then((e) => {
+        pyodide = e
+        console.log("Pyodide Loaded")
+
+        pyodide.runPythonAsync(`
             from pyodide.http import pyfetch
             response = await pyfetch("./script.py")
             with open("script.py", "wb") as f:
                 f.write(await response.bytes())
-        `)
-        pkg = pyodide.pyimport("script");
+        `).then((e) => { pkg = pyodide.pyimport("script"); }
+        )
+      });
+    }
 
 
-      }
+    main();
+  </script>
+</body>
 
-      main();
-    </script>
-  </body>
 </html>
