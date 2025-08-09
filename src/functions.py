@@ -1,15 +1,15 @@
 """The main script file for Pyodide."""
 
 from js import document
+from pyodide.http import pyfetch
 
 from parser import tokenize
-from pyodide.http import pyfetch
 
 
 def parse_input(sql_data: str) -> None:
     """Start of the parser."""
-    y =  tokenize(sql_data)
-    print(y[-2].text) # TODO: Put SQL Parser in
+    y = tokenize(sql_data)
+    print(y[-2].text)  # TODO: Put SQL Parser in
     return y
 
 
