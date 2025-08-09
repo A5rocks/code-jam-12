@@ -1,8 +1,9 @@
+"""The main script file for Pyodide."""
+
 import re
 
-from pyodide.http import pyfetch
 from js import document
-
+from pyodide.http import pyfetch
 
 c = re.compile(r"(?i)SELECT (?P<fields>.+) FROM (?P<table>.+) WHERE actor=(?P<did>did:plc:(.{24})|(?P<user>.+))")
 
@@ -14,8 +15,7 @@ def do_something(name: str) -> None:
 
 def parse_input(sql_data: str) -> None:
     """Start of the parser."""
-    data = c.match(sql_data)
-    return data
+    return c.match(sql_data)
 
 
 async def get_user_data(user: dict) -> dict:
@@ -32,10 +32,10 @@ async def get_user_data(user: dict) -> dict:
             <td colspan="2" style="text-align: center; padding: 20px; color: #666">
                         {data_point["author"]["displayName"]}
             </td>
-            <td colspan="4" style="text-align: center; padding: 20px; color: #666">
-                        {data_point["record"]["text"]}
+            <td colspan="4" style="text-align: left; overflow-wrap: anywhere; word-wrap: break-word; padding: 20px; color: #666">
+                        {data_point["record"]["text"].replace("\n","<br>")}
             </td>
             </tr>"""
-        except:
-            continue
+        except KeyError:
+            continue  # Handle if a field is missing (no text maybe?)
     return val
