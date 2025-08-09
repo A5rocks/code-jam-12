@@ -2,16 +2,15 @@
 
 from js import document
 
-# from parser import tokenize
+from parser import tokenize
 from pyodide.http import pyfetch
 
 
 def parse_input(sql_data: str) -> None:
     """Start of the parser."""
-    # y =  tokenize(sql_data)
-    # print(y[-2].text) TODO: Put SQL Parser in
-    msg = "A5 SQL Parser Needed"
-    raise NotImplementedError(msg)
+    y =  tokenize(sql_data)
+    print(y[-2].text) # TODO: Put SQL Parser in
+    return y
 
 
 async def get_user_data(user: dict) -> dict:
