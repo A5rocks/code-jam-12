@@ -1,26 +1,22 @@
 """The main script file for Pyodide."""
 
-import re
-
 from js import document
+# from parser import tokenize
 from pyodide.http import pyfetch
-
-c = re.compile(r"(?i)SELECT (?P<fields>.+) FROM (?P<table>.+) WHERE actor=(?P<did>did:plc:(.{24})|(?P<user>.+))")
-
-
-def do_something(name: str) -> None:
-    """Nothing, just plaiting with functions."""
-    print(f"Hello {name}")
 
 
 def parse_input(sql_data: str) -> None:
     """Start of the parser."""
-    return c.match(sql_data)
+    # y =  tokenize(sql_data)
+    # print(y[-2].text) TODO: Put SQL Parser in 
+    msg = "A5 SQL Parser Needed"
+    raise NotImplementedError(msg)
 
 
 async def get_user_data(user: dict) -> dict:
     """Pyfetch command example."""
-    response = await pyfetch(f"https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor={user['user']}")
+    url = f"https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor={user[-2].text}"
+    response = await pyfetch(url)
     val = (await response.json())["feed"]
     tb = document.getElementById("table-body")
     tb.innerHTML = ""
@@ -39,3 +35,4 @@ async def get_user_data(user: dict) -> dict:
         except KeyError:
             continue  # Handle if a field is missing (no text maybe?)
     return val
+
