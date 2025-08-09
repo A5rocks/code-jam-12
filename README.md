@@ -1,3 +1,17 @@
+#  iridescent ivies
+
+### development
+
+To get a web server up:
+ 1. run `python -m http.server`
+ 2. navigate to the URL it provides
+
+To run `pre-commit` on everything: `pre-commit run -a`.
+
+To download all dependencies: `pip install -r requirements.txt`
+
+---
+
 # Python Discord Code Jam Repository Template
 
 ## A primer
