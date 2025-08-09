@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Social Query Language v1.0</title>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.28.1/full/pyodide.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body class="crt">
+    <div class="screen">
+      <!-- electric feedback when pressing a button -->
+      <div class="electric-wave" id="electric-wave"></div>
+
+      <div class="interface">
+        <div class="title-bar">
+          <span>The Social Query Language v2.1</span>
+          <span>© 1987 Iridescent Ivies</span>
+        </div>
+
+        <div class="window">
+          <div class="content-area">
+            <!-- query input panel -->
+            <div class="query-panel">
+              <div class="panel-header">SQL COMMAND</div>
+              <div class="panel-content">
+                <textarea
+                  class="sql-input"
+                  id="query-input"
+                  placeholder="SELECT username, message, likes FROM posts WHERE likes > 10"
+                ></textarea>
+                <div class="button-row">
+                  <button class="btn" id="execute-btn">EXECUTE</button>
+                  <button class="btn btn-danger" id="cancel-btn">CANCEL</button>
+                  <button class="btn" id="clear-btn">CLEAR</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- results panel -->
+            <div class="results-panel">
+              <div class="panel-header">QUERY RESULTS</div>
+
+              <!-- table container -->
+              <div class="table-area" id="table-container">
+                <table class="data-table" id="results-table">
+                  <thead id="table-head">
+                    <!-- headers will be provided by backend -->
+                  </thead>
+                  <tbody id="table-body">
+                    <!-- data rows will be provited by backend -->
+                    <tr>
+                      <td
+                        colspan="8"
+                        style="text-align: center; padding: 20px; color: #666"
+                      >
+                        No data loaded. Execute a query to see results.
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- status bar -->
+              <div class="status-line">
+                <span id="status-message">Ready</span>
+                <span id="connection-info">Rows: 0 | Status: Waiting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- loading overlay (hidden by default) -->
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">EXECUTING QUERY...</div>
+      </div>
+    </div>
+
+    <script src="frontend.js"></script>
+  </body>
+</html>

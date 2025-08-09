@@ -28,6 +28,7 @@
         console.log("Pyodide Loaded")
 
         pyodide.runPythonAsync(`
+
             from pyodide.http import pyfetch
             response = await pyfetch("./script.py")
             with open("script.py", "wb") as f:
@@ -41,5 +42,4 @@
     main();
   </script>
 </body>
-
 </html>
