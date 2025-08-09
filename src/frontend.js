@@ -295,4 +295,4 @@ document.addEventListener('DOMContentLoaded', function() {
   showEmptyTable();
   
   console.log("ready")
-};
+})
