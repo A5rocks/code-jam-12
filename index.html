@@ -8,7 +8,7 @@
     <input type="button" name="" onclick="send_back()">
     <script type="text/javascript">
       let pyodide;
-      
+
       async function send_back(){
         let sql_data = document.getElementById("sql-field").value
         console.log(sql_data)
@@ -16,7 +16,7 @@
         pkg.parse_input(sql_data);
       }
       async function main(){
-        
+
        pyodide = await loadPyodide();
 
         await pyodide.runPythonAsync(`
@@ -28,7 +28,7 @@
         pkg = pyodide.pyimport("script");
 
 
-        
+
       }
 
       main();
