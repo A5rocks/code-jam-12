@@ -14,6 +14,7 @@
         console.log(sql_data)
 
         pkg.parse_input(sql_data);
+        console.log(await pkg.get_user_data("tess.bsky.social"))
       }
       async function main(){
 
@@ -26,7 +27,6 @@
                 f.write(await response.bytes())
         `)
         pkg = pyodide.pyimport("script");
-
 
 
       }
