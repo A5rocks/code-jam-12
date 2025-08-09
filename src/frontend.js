@@ -23,7 +23,7 @@ const electricWave = document.getElementById('electric-wave');
 window.updateStatus = function(message, type = 'info') {
   statusMessage.textContent = message;
   statusMessage.className = `status-${type}`;
-  
+
   // blink effect for errors
   if (type === 'error') {
     statusMessage.style.animation = 'blink 0.5s 3';
@@ -74,7 +74,7 @@ window.updateTable = function(headers, rows) {
   // fade out effect before updating
   tableHead.style.opacity = '0.3';
   tableBody.style.opacity = '0.3';
-  
+
   setTimeout(() => {
     // clear table
     tableHead.innerHTML = '';
@@ -92,7 +92,7 @@ window.updateTable = function(headers, rows) {
       th.textContent = header.toUpperCase();
       th.style.opacity = '0';
       headerRow.appendChild(th);
-      
+
       // staggered header animation
       setTimeout(() => {
         th.style.transition = 'opacity 0.3s ease';
@@ -105,19 +105,19 @@ window.updateTable = function(headers, rows) {
     rows.forEach((rowData, rowIndex) => {
       const tr = document.createElement('tr');
       tr.style.opacity = '0';
-      
-      const cellValues = Array.isArray(rowData) 
-        ? rowData 
+
+      const cellValues = Array.isArray(rowData)
+        ? rowData
         : headers.map(header => rowData[header] || '');
-      
+
       cellValues.forEach(cellData => {
         const td = document.createElement('td');
         td.textContent = cellData || '';
         tr.appendChild(td);
       });
-      
+
       tableBody.appendChild(tr);
-      
+
       // staggered row animation
       setTimeout(() => {
         tr.style.transition = 'opacity 0.4s ease';
@@ -133,12 +133,12 @@ window.updateTable = function(headers, rows) {
 
     // update counter
     window.updateConnectionInfo(rows.length, 'connected');
-    
+
     // final success effect
     setTimeout(() => {
       window.triggerElectricWave();
     }, (rows.length * 100) + 500);
-    
+
   }, 200);
 };
 
@@ -156,7 +156,7 @@ function showEmptyTable() {
   emptyCell.style.fontStyle = 'italic';
   emptyRow.appendChild(emptyCell);
   tableBody.appendChild(emptyRow);
-  
+
   tableHead.style.opacity = '1';
   tableBody.style.opacity = '1';
   window.updateConnectionInfo(0, 'no results');
@@ -170,7 +170,7 @@ window.setButtonsDisabled = function(disabled) {
   executeBtn.disabled = disabled;
   clearBtn.disabled = disabled;
   cancelBtn.disabled = !disabled; // cancel only available when executing
-  
+
   // visual effects on buttons
   if (disabled) {
     executeBtn.style.opacity = '0.5';
@@ -222,7 +222,7 @@ window.clearInterface = function() {
 window.showInputError = function() {
   queryInput.style.borderColor = '#ff0000';
   queryInput.style.boxShadow = 'inset 0 0 10px rgba(255, 0, 0, 0.3)';
-  
+
   setTimeout(() => {
     queryInput.style.borderColor = '#00ff00';
     queryInput.style.boxShadow = 'inset 0 0 5px rgba(0, 255, 0, 0.3)';
@@ -235,7 +235,7 @@ window.showInputError = function() {
 window.showInputSuccess = function() {
   queryInput.style.borderColor = '#00ff00';
   queryInput.style.boxShadow = 'inset 0 0 10px rgba(0, 255, 0, 0.5)';
-  
+
   setTimeout(() => {
     queryInput.style.boxShadow = 'inset 0 0 5px rgba(0, 255, 0, 0.3)';
   }, 1000);
@@ -255,9 +255,9 @@ window.flashScreen = function(color = '#00ff00', duration = 200) {
   flash.style.opacity = '0.1';
   flash.style.pointerEvents = 'none';
   flash.style.zIndex = '9999';
-  
+
   document.body.appendChild(flash);
-  
+
   setTimeout(() => {
     flash.style.transition = `opacity ${duration}ms ease`;
     flash.style.opacity = '0';
@@ -267,7 +267,7 @@ window.flashScreen = function(color = '#00ff00', duration = 200) {
   }, 50);
 };
 
-// automatic system effects 
+// automatic system effects
 
 // occasional screen flicker (retro effect)
 setInterval(() => {
@@ -293,6 +293,6 @@ document.addEventListener('DOMContentLoaded', function() {
   window.updateStatus('system ready', 'success');
   window.updateConnectionInfo(0, 'waiting');
   showEmptyTable();
-  
+
   console.log("ready")
 })
