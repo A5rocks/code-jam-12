@@ -32,7 +32,7 @@
                   placeholder="SELECT username, message, likes FROM posts WHERE likes > 10"
                 ></textarea>
                 <div class="button-row">
-                  <button class="btn" id="execute-btn">EXECUTE</button>
+                  <button class="btn" id="execute-btn" onclick="send_back()">EXECUTE</button>
                   <button class="btn btn-danger" id="cancel-btn">CANCEL</button>
                   <button class="btn" id="clear-btn">CLEAR</button>
                 </div>
@@ -83,5 +83,37 @@
     </div>
 
     <script src="frontend.js"></script>
+    <script type="text/javascript">
+    let pyodide;
+
+    function send_back() {
+      let sql_data = document.getElementById("query-input").value
+      console.log(sql_data)
+
+      let data = pkg.parse_input(sql_data);
+      pkg.get_user_data(data).then((e) => {
+        console.log(e)
+      })
+    }
+
+    function main() {
+
+      loadPyodide().then((e) => {
+        pyodide = e
+        console.log("Pyodide Loaded")
+
+        pyodide.runPythonAsync(`
+            from pyodide.http import pyfetch
+            response = await pyfetch("./script.py")
+            with open("script.py", "wb") as f:
+                f.write(await response.bytes())
+        `).then((e) => { pkg = pyodide.pyimport("script"); }
+        )
+      });
+    }
+
+
+    main();
+  </script>
   </body>
 </html>
