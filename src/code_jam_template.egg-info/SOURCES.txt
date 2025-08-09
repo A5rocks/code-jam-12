@@ -1,9 +1,0 @@
-LICENSE.txt
-README.md
-pyproject.toml
-src/functions.py
-src/setup.py
-src/code_jam_template.egg-info/PKG-INFO
-src/code_jam_template.egg-info/SOURCES.txt
-src/code_jam_template.egg-info/dependency_links.txt
-src/code_jam_template.egg-info/top_level.txt
