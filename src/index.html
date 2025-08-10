@@ -84,6 +84,7 @@
     function main() {
 
       loadPyodide().then((pyodide) => {
+        window.pyodide = pyodide
         console.log("Pyodide Loaded")
 
         pyodide.runPythonAsync(`

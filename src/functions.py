@@ -4,6 +4,7 @@ from js import document
 from pyodide.ffi import create_proxy
 from pyodide.http import pyfetch
 
+from frontend import CLEAR_BUTTON, EXECUTE_BUTTON, clear_interface
 from parser import tokenize
 
 
@@ -38,5 +39,6 @@ async def get_user_data(user: dict) -> dict:
             continue  # Handle if a field is missing (no text maybe?)
     return val
 
-proxy_f = create_proxy(parse_input)
-document.getElementById("execute-btn").addEventListener("click", proxy_f)
+
+EXECUTE_BUTTON.addEventListener("click", create_proxy(parse_input))
+CLEAR_BUTTON.addEventListener("click", create_proxy(clear_interface))

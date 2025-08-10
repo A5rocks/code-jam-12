@@ -32,3 +32,4 @@ build/
 # pixi environments
 .pixi
 src/code_jam_template.egg-info/
+src/sql_bsky.egg-info/*
