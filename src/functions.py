@@ -1,14 +1,16 @@
 """The main script file for Pyodide."""
 
 from js import document
+from pyodide.ffi import create_proxy
 from pyodide.http import pyfetch
 
 from parser import tokenize
 
 
-def parse_input(sql_data: str) -> None:
+def parse_input(*args) -> None:
     """Start of the parser."""
-    y = tokenize(sql_data)
+    print("testing")
+    y = tokenize(document.getElementById("query-input").value)
     print(y[-2].text)  # TODO: Put SQL Parser in
     return y
 
@@ -35,3 +37,6 @@ async def get_user_data(user: dict) -> dict:
         except KeyError:
             continue  # Handle if a field is missing (no text maybe?)
     return val
+
+proxy_f = create_proxy(parse_input)
+document.getElementById("execute-btn").addEventListener("click", proxy_f)
