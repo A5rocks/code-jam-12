@@ -58,7 +58,7 @@ def clear_query_input() -> None:
     set_timeout(create_proxy(_clear), 150)
 
 
-def show_empty_table() -> None:
+def show_empty_table() -> int:
     """Empty the table."""
     empty_row = document.createElement("tr")
     empty_cell = document.createElement("td")
@@ -69,11 +69,15 @@ def show_empty_table() -> None:
     empty_cell.style.color = "#666"
     empty_cell.style.fontStyle = "italic"
     empty_row.appendChild(empty_cell)
+
+    TABLE_HEAD.innerHTML = "<tr><td>No Columns</td></tr>"
+    print(TABLE_HEAD)
     TABLE_BODY.replaceChildren(empty_row)
 
     TABLE_HEAD.style.opacity = "1"
     TABLE_BODY.style.opacity = "1"
     update_connection_info(0, "no results")
+    return 1
 
 
 def update_connection_info(row: int, status: str) -> None:
