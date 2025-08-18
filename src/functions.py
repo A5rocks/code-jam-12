@@ -222,9 +222,18 @@ async def processor(api: tuple[str, str], table: str) -> dict:  # noqa: PLR0912 
     elif table == "tables":
         val = [
             {"Table_Name": _}
-            for _ in ["feed", "timeline", "profile", "suggestions", "likes", "followers", "following", "mutuals"]
+            for _ in [
+                "feed",
+                "timeline",
+                "profile",
+                "suggestions",
+                "suggested_feed",
+                "likes",
+                "followers",
+                "following",
+                "mutuals",
+            ]
         ]
-    print(val)
     return val
 
 
