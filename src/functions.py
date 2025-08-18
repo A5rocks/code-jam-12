@@ -219,6 +219,9 @@ async def processor(api: tuple[str, str], table: str) -> dict:  # noqa: PLR0912 
             val = feed["followers"]
         else:
             pass
+    elif table == "tables":
+        val = [{"Table_Name": _} for _ in ["feed", "timeline", "profile", "suggestions", "likes", "followers", "following", "mutuals"]]
+    print(val)
     return val
 
 
